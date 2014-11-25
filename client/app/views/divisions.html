@@ -1,6 +1,6 @@
  <div ng-controller='DivisionCtrl'>
    <div ng-show="selected.name == null">
-     <h1>Select a Division</h1>
+     <h1>Select a Conference</h1>
      <ul ng-repeat="division in divisions">
        <li>
 	 <h2>
@@ -16,23 +16,47 @@
    </div> -->
    <div ng-show="selected.name != null">
      <h1>{{selected.name}} Teams</h1>
-     <a href="" ng-click="selected.name = null;">Select another division</a>
+     <h3><a href="" ng-click="selected.name = null;"><i class="fa fa-chevron-left"></i> Select another Conference</a></h3>
      <br>
      <table ng-table="tableParams" class="table">
        <tr>
 	 <th>Name</th>
-	 <th>Wins</th>
-	 <th>Losses</th>
+	 <th>Overall<br>Wins</th>
+	 <th>Overall<br>Losses</th>
+	 <th>Points<br>for</th>
+	 <th>Points<br>against</th>
+	 <th>Home<br>Wins</th>
+	 <th>Home<br>Losses</th>
+	 <th>Away<br>Wins</th>
+	 <th>Away<br>Losses</th>
        </tr>
-       <tr ng-repeat="(team,stat) in stats" ng-class="{ 'emphasis': user.money > 500 }">
+       <tr ng-repeat="(team,stat) in stats" ng-class-odd="'odd'" ng-class-even="'even'" ng-class="{ 'emphasis': user.money > 500 }">
          <td data-title="'Name'">
-	   {{stat[0]}}
+	   {{stat['name']}}
          </td>
          <td data-title="'Wins'">
-	   {{stat[1]['wins']}}
+	   {{stat['overall']['wins']}}
          </td>
          <td data-title="'Losses'" >
-	   {{stat[1]['losses']}}
+	   {{stat['overall']['losses']}}
+         </td>
+         <td data-title="'Points for'">
+	   {{stat['points']['for']}}
+         </td>
+         <td data-title="'Points against'">
+	   {{stat['points']['against']}}
+         </td>
+         <td data-title="'Home Wins'">
+	   {{stat['home']['wins']}}
+         </td>
+         <td data-title="'Home Losses'" >
+	   {{stat['home']['losses']}}
+         </td>
+         <td data-title="'Away Wins'">
+	   {{stat['away']['wins']}}
+         </td>
+         <td data-title="'Away Losses'" >
+	   {{stat['away']['losses']}}
          </td>
        </tr>
      </table>     

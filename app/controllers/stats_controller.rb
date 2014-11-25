@@ -3,35 +3,21 @@ class StatsController < ApplicationController
   # GET /stats
   # GET /stats.json
   def index
-    url = 'http://api.sportsdatallc.org/ncaafb-t1/teams/FBS/2014/REG/standings.json?api_key=ushjeuzyq2w9bpxqrmu3jdsp'
-    resp = Net::HTTP.get_response(URI.parse(url)) # get_response takes an URI object
-    data = resp.body
-    data = JSON.parse(data)    
-    pac12raw = data['division']['conferences'][8]['teams']    
-    pac12 = Hash.new
-    pac12raw.each do |team|
-      pac12[team['id']] = [team['name'], team['overall']]
-    end
-    render json: pac12
+    @stats = Stat.all()
+
+    render json: @stats
   end
 
   # GET /stats/1
   # GET /stats/1.json
-  def show
-    url = 'http://api.sportsdatallc.org/ncaafb-t1/teams/FBS/2014/REG/standings.json?api_key=ushjeuzyq2w9bpxqrmu3jdsp'
-    resp = Net::HTTP.get_response(URI.parse(url)) # get_response takes an URI object
-    data = resp.body
-    data = JSON.parse(data)        
-    div_raw = data['division']['conferences'][params[:id].to_i]['teams']    
-    div = Hash.new
-    div_raw.each do |team|
-      div[team['id']] = [team['name'], team['overall']]
+  def show    
+    div = Stat.get_division(params[:id].to_i)    
+    if div.eql? 'Error'
+      return render json: {'error' => div}
     end
-    render json: div
-
-    # @stat = Stat.find(params[:id])
+    matchups = Stat.get_matchups(div)
     
-    # render json: @stat
+    render json: {'div' => div, 'matchups' => matchups}
   end
 
   # POST /stats

@@ -191,8 +191,14 @@ angular.module('goodmatchesApp')
 angular.module('goodmatchesApp')
     .controller('StatsCtrl', ['$rootScope', '$scope', 'SportStat', function ($rootScope, $scope, SportStat) {
 	// $rootScope.stats = SportStat.get();
-	$scope.getStats = function(label) { 
-	    $rootScope.stats = SportStat.show(label);	    
+	$scope.getStats = function(label) { 	    
+	    var data = SportStat.show(label);
+	    if ('error' in data){
+		$rootScope.error = data.error;
+	    } else {
+		$rootScope.stats = data.div;
+		$rootScope.matchups = data.matchups;	    		
+	    }
 	};	
     }]);
 
