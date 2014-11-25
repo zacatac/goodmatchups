@@ -1,1 +1,1 @@
-//= require_tree '../../../client/app/scripts/controller'
+//= require_tree '../../../client/app/scripts/controllers'
