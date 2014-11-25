@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
+
+
   scope '/api' do
+    resources :stats, except: [:new, :edit, :update, :create]
     resources :divisions, except: [:new, :edit]
+    resources :teams , except: [:new, :edit] do
+      collection do
+        get 'query/:id' => 'teams#query'        
+      end      
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

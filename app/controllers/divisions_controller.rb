@@ -7,11 +7,21 @@ class DivisionsController < ApplicationController
     render json: @divisions
   end
 
+  # GET /divisions/?
+  # GET /divisions/?
+  def teams
+    puts 'REACHED TEAMS CONTROLLER METHOD'
+    @teams = Team.in_division(params[:id])
+
+    render json: @teams
+  end
+  
   # GET /divisions/1
   # GET /divisions/1.json
   def show
     @division = Division.find(params[:id])
-
+    # @teams = Team.where(division_id: params[:id])[1]
+    
     render json: @division
   end
 

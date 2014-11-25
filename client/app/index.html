@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -13,6 +14,9 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
   </head>
   <body ng-app="goodmatchesApp">
     <!--[if lt IE 7]>
@@ -25,7 +29,7 @@
         <ul class="nav nav-pills pull-right">
           <li class="active"><a ng-href="#">Home</a></li>
           <li><a ng-href="#/about">About</a></li>
-          <li><a ng-href="#">Contact</a></li>
+          <li><a ng-href="#/contact">Contact</a></li>
         </ul>
         <h3 class="text-muted">goodmatches</h3>
       </div>
@@ -33,7 +37,7 @@
       <div ng-view=""></div>
 
       <div class="footer">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+        <p><span class="glyphicon glyphicon-chevron-up"></span> from Zack Field</p>
       </div>
     </div>
 
@@ -86,5 +90,11 @@
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <!-- endbuild -->
-</body>
+
+
+	<script src="scripts/controllers/division.js"></script>
+	<script src="scripts/controllers/team.js"></script>
+	<script src="scripts/controllers/stat.js"></script>
+
+  </body>
 </html>

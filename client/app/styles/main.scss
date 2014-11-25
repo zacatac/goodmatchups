@@ -90,3 +90,8 @@ body {
     border-bottom: 0;
   }
 }
+
+.ng-table tr.emphasis td {
+    background-color: #DDD;
+    font-weight: bold;
+}

@@ -10,6 +10,7 @@ gem 'spring', :group => :development
 
 gem 'pg'
 
+gem 'nokogiri'
 
 
 # To use ActiveModel has_secure_password
