@@ -1,10 +1,10 @@
  <div ng-controller='DivisionCtrl'>
-   <div ng-show="selected.name == null" id="division-choice">
+   <div ng-show="selected.name == null">
      <h1>Select a Division</h1>
      <ul ng-repeat="division in divisions">
        <li>
 	 <h2>
-	   <a href='' ng-click="viewDivision(division.id); gotoAnchor('statistics'); getStats(division.label);">{{division.name}}</a> 
+	   <a href='' ng-click="viewDivision(division.id); getStats(division.label);">{{division.name}}</a> 
 	 </h2>
        </li>
      </ul>
@@ -14,7 +14,7 @@
    <!-- <div class="selected">
    <h2>{{selected.name}}</h2>
    </div> -->
-   <div ng-show="selected.name != null" id="statistics">
+   <div ng-show="selected.name != null">
      <h1>{{selected.name}} Teams</h1>
      <a href="" ng-click="selected.name = null;">Select another division</a>
      <br>
