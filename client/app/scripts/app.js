@@ -138,3 +138,129 @@ angular
     .run(['$anchorScroll', function($anchorScroll) {
 	$anchorScroll.yOffset = 250;   // always scroll by 50 extra pixels
     }]);
+
+
+/**
+ * @ngdoc function
+ * @name goodmatchesApp.controller:DivisionsCtrl
+ * @description
+ * # DivisionsCtrl
+ * Controller of the goodmatchesApp
+ */
+
+angular.module('goodmatchesApp')
+    .controller('DivisionCtrl', ['$anchorScroll', '$location', '$rootScope','$scope', 'Division', 'DivisionTeams','SportStat', function ($anchorScroll, $location, $rootScope, $scope, Division, DivisionTeams, SportStat) {
+	$scope.divisions = Division.all();	
+
+	$scope.viewDivision = function(id) { 	    
+	    $rootScope.selected = Division.one(id);
+	    return $rootScope.selected;
+	};	
+	$scope.getTeams = function(id){
+	    $rootScope.teams = DivisionTeams.query(id);
+	};
+	$scope.getStats = function(label){
+	    $rootScope.stats = SportStat.show(label);
+	};
+
+	$scope.gotoAnchor = function(x) {
+	    var newHash = x;
+	    console.log(x);	    
+	    if ($location.hash() !== newHash) {
+		// set the $location.hash to `newHash` and
+		// $anchorScroll will automatically scroll to it
+		$location.hash(x);
+	    } else {
+		// call $anchorScroll() explicitly,
+		// since $location.hash hasn't changed
+		$anchorScroll();
+	    }
+	};
+	
+
+    }]);
+
+/**
+ * @ngdoc function
+ * @name goodmatchesApp.controller:StatCtrl
+ * @description
+ * # StatCtrl
+ * Controller of the goodmatchesApp
+ */
+
+angular.module('goodmatchesApp')
+    .controller('StatsCtrl', ['$rootScope', '$scope', 'SportStat', function ($rootScope, $scope, SportStat) {
+	// $rootScope.stats = SportStat.get();
+	$scope.getStats = function(label) { 
+	    $rootScope.stats = SportStat.show(label);	    
+	};	
+    }]);
+
+/**
+ * @ngdoc function
+ * @name goodmatchesApp.controller:TeamCtrl
+ * @description
+ * # TeamCtrl
+ * Controller of the goodmatchesApp
+ */
+
+angular.module('goodmatchesApp')
+    .controller('TeamCtrl', ['$rootScope', '$scope', 'Team', 'DivisionTeams', function ($rootScope, $scope, Team, DivisionTeams) {	
+	$scope.teams = Team.all();	
+	$scope.viewTeam = function(id) { 
+	    $scope.selected = Team.one(id);
+	};	
+	
+	$scope.getTeamsForDivision = function(id){
+	    $rootScope.teams = DivisionTeams.query(id);
+	};
+    }]);
+
+/**
+ * @ngdoc function
+ * @name goodmatchesApp.controller:AboutCtrl
+ * @description
+ * # AboutCtrl
+ * Controller of the goodmatchesApp
+ */
+
+angular.module('goodmatchesApp')
+    .controller('AboutCtrl', [function() {
+	
+    }]);
+
+/**
+ * @ngdoc function
+ * @name goodmatchesApp.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller of the goodmatchesApp
+ */
+angular.module('goodmatchesApp')
+  .controller('MainCtrl', function ($scope) {
+    $scope.awesomeThings = [
+      'HTML5 Boilerplate',
+      'AngularJS',
+      'Karma'
+    ];
+  });
+
+/**
+ * @ngdoc function
+ * @name goodmatchesApp.controller:TeamCtrl
+ * @description
+ * # TeamCtrl
+ * Controller of the goodmatchesApp
+ */
+
+angular.module('goodmatchesApp')
+    .controller('TeamCtrl', ['$rootScope', '$scope', 'Team', 'DivisionTeams', function ($rootScope, $scope, Team, DivisionTeams) {	
+	$scope.teams = Team.all();	
+	$scope.viewTeam = function(id) { 
+	    $scope.selected = Team.one(id);
+	};	
+	
+	$scope.getTeamsForDivision = function(id){
+	    $rootScope.teams = DivisionTeams.query(id);
+	};
+    }]);
