@@ -1,13 +1,48 @@
 class Stat < ActiveRecord::Base
-  @@api_key = 'ushjeuzyq2w9bpxqrmu3jdsp'
+  serialize :data, JSON
 
-  def self.get_division(id)
-    url = "http://api.sportsdatallc.org/ncaafb-t1/teams/FBS/2014/REG/standings.json?api_key=#{@@api_key}"
-    resp = Net::HTTP.get_response(URI.parse(url)) # get_response takes an URI object 
-    return 'Error' if not ['200'].include?(resp.code)
-    data = JSON.parse(resp.body)        
-    div_raw = data['division']['conferences'][id]['teams']    
+  # @@api_key = 'ushjeuzyq2w9bpxqrmu3jdsp' # USed Nov quota
+  @@api_key = 'z2fggfbfa7qg976dubxmgc73'
 
+  def self.get_division(id, label)    
+    if id < 0 || id > 10
+      return 'Error'
+    end
+
+    @stats = Stat.where(:division_id => id)
+    if @stats.empty?   
+      label_to_index = {
+        'ACC' => 0,
+        'AAC' => 1,      
+        'BIG-12' => 2,
+        'BIG-TEN' => 3,
+        'CONFERENCE-USA' => 4,
+        'IA-INDEPENDENTS' => 5,
+        'MID-AMERICAN' => 6,
+        'MOUNTAIN-WEST' => 7, 
+        'PAC-12' => 8,
+        'SEC' => 9,
+        'SUN-BELT' => 10
+      }
+
+      puts 'API CALLED'
+      url = "http://api.sportsdatallc.org/ncaafb-t1/teams/FBS/2014/REG/standings.json?api_key=#{@@api_key}"
+      resp = Net::HTTP.get_response(URI.parse(url))
+      return 'Error' if not ['200'].include?(resp.code)
+      data = JSON.parse(resp.body)        
+      div_raw = data['division']['conferences'][label_to_index[label]]['teams']    
+      @stat = Stat.create({
+                            data: div_raw,
+                            division_id: id
+                          })
+      if not @stat.save
+        return 'Error'
+      end
+
+    else       
+      @stat = @stats[0]
+    end
+    div_raw = @stat['data']
     div = Hash.new
     div_raw.each do |team|      
       div[team['id']] = {
@@ -28,13 +63,16 @@ class Stat < ActiveRecord::Base
     # the two teams wpct
     teams = div.keys
     team_pairs = teams.combination(2).to_a
-    matchups = Hash.new
+    matchups = []
 
     team_pairs.each do | t1, t2 |
       t1wpct = div[t1]['overall']['wpct']
       t2wpct = div[t2]['overall']['wpct']
-      teams = [home,away].sort_by!{ |t| t }      
-      matchups[teams] = (t1wpct - t2wpct).abs
+      teams = [div[t1]['name'],div[t2]['name']].sort_by!{ |t| t }                 
+      matchups.push ( {
+        "teams" => teams,
+        "score" => (t1wpct - t2wpct).abs
+      })
     end
     return matchups
   end

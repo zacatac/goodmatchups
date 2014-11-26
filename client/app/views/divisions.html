@@ -16,8 +16,31 @@
    </div> -->
    <div ng-show="selected.name != null">
      <h1>{{selected.name}} Teams</h1>
-     <h3><a href="" ng-click="selected.name = null;"><i class="fa fa-chevron-left"></i> Select another Conference</a></h3>
+
+<h3><a href="" ng-click="selected.name = null;"><i class="fa fa-chevron-left"></i> Select another Conference</a></h3>
      <br>
+     <h2>Matchups (from best to worst)</h2>
+     <table ng-table="tableParams" class="table">
+       <tr>
+	 <th>Team 1</th>
+	 <th>Team 2</th>
+	 <th>Matchup Score</th>
+       </tr>
+       <tr ng-repeat="data in stats.matchups | orderBy:'score':false" ng-class-odd="'odd'" ng-class-even="'even'" >
+         <td data-title="'Name'">
+	   {{data.teams[0]}}
+	   <!-- {{data.teams.split(',')[0].slice(2,-1)}} -->
+         </td>
+         <td data-title="'Wins'">
+	   {{data.teams[1]}}
+         </td>
+         <td data-title="'Losses'" >
+	   {{data.score}}
+         </td>
+       </tr>
+     </table>     
+     <br>
+     <h2>Stats</h2>
      <table ng-table="tableParams" class="table">
        <tr>
 	 <th>Name</th>
@@ -30,7 +53,8 @@
 	 <th>Away<br>Wins</th>
 	 <th>Away<br>Losses</th>
        </tr>
-       <tr ng-repeat="(team,stat) in stats" ng-class-odd="'odd'" ng-class-even="'even'" ng-class="{ 'emphasis': user.money > 500 }">
+       
+       <tr ng-repeat="(team,stat) in stats.div" ng-class-odd="'odd'" ng-class-even="'even'" >
          <td data-title="'Name'">
 	   {{stat['name']}}
          </td>

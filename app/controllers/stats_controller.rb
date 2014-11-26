@@ -10,14 +10,29 @@ class StatsController < ApplicationController
 
   # GET /stats/1
   # GET /stats/1.json
-  def show    
-    div = Stat.get_division(params[:id].to_i)    
-    if div.eql? 'Error'
+  def show   
+    def is_i?(id)
+      id =~ /\A\d+\z/ ? true : false
+    end
+
+    if is_i?(params[:id])
+      id = params[:id]
+    else 
+      divs = Division.where(:label => params[:id])
+      if divs.empty? 
+        return render json: {'error' => 'Error'}
+      end
+      id = divs[0].id
+    end
+    
+    div = Stat.get_division(id.to_i, params[:id])
+
+    if div.eql? 'Error' || div.nil?
       return render json: {'error' => div}
     end
     matchups = Stat.get_matchups(div)
     
-    render json: {'div' => div, 'matchups' => matchups}
+    render json: {:div => div, :matchups => matchups}
   end
 
   # POST /stats

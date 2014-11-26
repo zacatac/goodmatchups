@@ -117,26 +117,10 @@ angular
     	}
 	
     	SportStat.prototype.show = function(label) {
-	    var labelToIndex = {
-		'ACC' : 0,
-		'AAC' : 1,      
-		'BIG-12' : 2,
-		'BIG-TEN' : 3,
-		'CONFERENCE-USA' : 4,
-		'IA-INDEPENDENTS' : 5,
-		'MID-AMERICAN' : 6,
-		'MOUNTAIN-WEST' : 7, 
-		'PAC-12' : 8,
-		'SEC' : 9,
-		'SUN-BELT' : 10
-	    };
-    	    return this.service.show({id: labelToIndex[label]});
+    	    return this.service.show({id: label});
     	};
 
 	return new SportStat();
-    }])
-    .run(['$anchorScroll', function($anchorScroll) {
-	$anchorScroll.yOffset = 250;   // always scroll by 50 extra pixels
     }]);
 
 
@@ -195,9 +179,8 @@ angular.module('goodmatchesApp')
 	    var data = SportStat.show(label);
 	    if ('error' in data){
 		$rootScope.error = data.error;
-	    } else {
-		$rootScope.stats = data.div;
-		$rootScope.matchups = data.matchups;	    		
+	    } else {		
+		$rootScope.stats = data;
 	    }
 	};	
     }]);
@@ -243,13 +226,13 @@ angular.module('goodmatchesApp')
  * Controller of the goodmatchesApp
  */
 angular.module('goodmatchesApp')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+    .controller('MainCtrl', function ($scope) {
+	$scope.awesomeThings = [
+	    'HTML5 Boilerplate',
+	    'AngularJS',
+	    'Karma'
+	];
+    });
 
 /**
  * @ngdoc function
