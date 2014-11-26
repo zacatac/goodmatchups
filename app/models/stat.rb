@@ -5,7 +5,7 @@ class Stat < ActiveRecord::Base
   @@api_key = 'z2fggfbfa7qg976dubxmgc73'
 
   def self.get_division(id, label)    
-    if id < 0 || id > 10
+    if id < 0 || id > 11
       return 'Error'
     end
 
